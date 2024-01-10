@@ -50,6 +50,20 @@ dev_dependencies:
   # hive code generator
   hive_generator: ^2.0.1
 
+flutter_native_splash:
+  color: "#f0f1f2"
+  image: assets/logo/logo.png
+  color_dark: "#01090f"
+  image_dark: assets/logo/logo.png
+
+  android_12:
+    image: assets/logo/logo.png
+    icon_background_color: "#f0f1f2"
+    image_dark: assets/logo/logo.png
+    icon_background_color_dark: "#01090f"
+
+  web: false
+
 # The following section is specific to Flutter packages.
 flutter:
   uses-material-design: true
