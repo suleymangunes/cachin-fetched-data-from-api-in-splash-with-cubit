@@ -10,9 +10,8 @@ class NormalNavigationPage extends StatelessWidget with GetItNormalInstance {
   @override
   Widget build(BuildContext context) {
     return MultiBlocProvider(providers: [
-      BlocProvider(
-        create: (context) => NormalUserCubit(fetchUser())..fetchProfile(),
-      )
+      BlocProvider(create: (context) => NormalUserCubit(fetchUser())),
+      BlocProvider(create: (context) => ProfileNormalUserCubit(fetchUser())),
     ], child: const NavigationView());
   }
 }

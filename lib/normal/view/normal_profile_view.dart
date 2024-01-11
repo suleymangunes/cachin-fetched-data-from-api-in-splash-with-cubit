@@ -17,7 +17,7 @@ class NormalProfileView extends StatelessWidget {
         centerTitle: true,
         title: const Text("Profile"),
       ),
-      body: BlocBuilder<NormalUserCubit, INormalUserState>(
+      body: BlocBuilder<ProfileNormalUserCubit, INormalUserState>(
         builder: (context, state) {
           switch (state.status) {
             case ServiceEnum.initial:

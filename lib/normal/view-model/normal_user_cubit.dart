@@ -12,47 +12,64 @@ class NormalUserCubit extends Cubit<INormalUserState> {
     this._normalUserService,
   ) : super(NormalUserInitialState());
 
+  DateTime? _lastFetchTime;
+
   Future<void> fetchUsers() async {
-    try {
-      emit(NormalUserLoadingState());
-      final List<NormalUserModel>? response = await _normalUserService.fetchUsers();
-      if (response != null) {
-        emit(NormalUserCompletedState(response, null));
-      } else {
-        NormalUserErrorState("Null error");
-      }
-    } catch (e) {
-      if (e is DioException) {
-        if (e.response != null) {
-          emit(NormalUserDioErrorState(e));
+    print("bura cagriliyor mu ki");
+    if (_lastFetchTime == null || (_lastFetchTime != null && DateTime.now().difference(_lastFetchTime!).inSeconds > 5)) {
+      try {
+        emit(NormalUserLoadingState());
+        final List<NormalUserModel>? response = await _normalUserService.fetchUsers();
+        if (response != null) {
+          emit(NormalUserCompletedState(response, null));
         } else {
-          emit(NormalUserDioErrorState(e));
+          NormalUserErrorState("Null error");
         }
-      } else {
-        emit(NormalUserErrorState(e.toString()));
+      } catch (e) {
+        if (e is DioException) {
+          if (e.response != null) {
+            emit(NormalUserDioErrorState(e));
+          } else {
+            emit(NormalUserDioErrorState(e));
+          }
+        } else {
+          emit(NormalUserErrorState(e.toString()));
+        }
       }
+      _lastFetchTime = DateTime.now();
     }
   }
+}
 
+class ProfileNormalUserCubit extends Cubit<INormalUserState> {
+  final INormalUserService _normalUserService;
+  ProfileNormalUserCubit(
+    this._normalUserService,
+  ) : super(NormalUserInitialState());
+
+  DateTime? _lastFetchTime;
   Future<void> fetchProfile() async {
-    try {
-      emit(NormalUserLoadingState());
-      final NormalUserModel? response = await _normalUserService.fetchProfile();
-      if (response != null) {
-        emit(NormalUserCompletedState(null, response));
-      } else {
-        NormalUserErrorState("Null error");
-      }
-    } catch (e) {
-      if (e is DioException) {
-        if (e.response != null) {
-          emit(NormalUserDioErrorState(e));
+    if (_lastFetchTime == null || (_lastFetchTime != null && DateTime.now().difference(_lastFetchTime!).inSeconds > 5)) {
+      try {
+        emit(NormalUserLoadingState());
+        final NormalUserModel? response = await _normalUserService.fetchProfile();
+        if (response != null) {
+          emit(NormalUserCompletedState(null, response));
         } else {
-          emit(NormalUserDioErrorState(e));
+          NormalUserErrorState("Null error");
         }
-      } else {
-        emit(NormalUserErrorState(e.toString()));
+      } catch (e) {
+        if (e is DioException) {
+          if (e.response != null) {
+            emit(NormalUserDioErrorState(e));
+          } else {
+            emit(NormalUserDioErrorState(e));
+          }
+        } else {
+          emit(NormalUserErrorState(e.toString()));
+        }
       }
+      _lastFetchTime = DateTime.now();
     }
   }
 }
